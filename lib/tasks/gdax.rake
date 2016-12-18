@@ -71,8 +71,10 @@ namespace :gdax do
 
     api.last_trade(product_id: "BTC-USD") do |resp|
       p "Spot Rate: $ %.2f" % resp.price
+      asking_price = resp.price - 0.01
+      p "asking_price - #{asking_price}"
 
-      api.ask(0.01, resp.price) do |resp|
+      api.ask(0.01, asking_price) do |resp|
         p "Order ID is #{resp.id}"
       end
     end
