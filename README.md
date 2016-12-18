@@ -1,24 +1,14 @@
-# README
+# Trader App
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+The purpose of this app is to trade bitcoin and ethereum for fun and profit.
 
-Things you may want to cover:
+# Notes
 
-* Ruby version
+initial setting up based on this https://docs.docker.com/compose/rails/
 
-* System dependencies
+might have to sudo chown -R $USER:$USER . on linux
 
-* Configuration
+API key found at https://www.gdax.com/settings/api
 
-* Database creation
+GDAX docs here https://docs.gdax.com/?ruby#pagination
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...

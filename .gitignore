@@ -14,4 +14,7 @@
 !/tmp/.keep
 
 # Ignore Byebug command history file.
+docker-compose.override.yml
+
+# Ignore Byebug command history file.
 .byebug_history

@@ -11,3 +11,10 @@ services:
       - "3000:3000"
     depends_on:
       - db
+    environment:
+      COINBASE_API_KEY: foo
+      COINBASE_API_SECRET: bar
+      COINBASE_API_PASS: baz
+      COINBASE_API_URL: https://api.gdax.com
+      COINBASE_API_SANDBOX_URL: https://api-public.sandbox.gdax.com
+
