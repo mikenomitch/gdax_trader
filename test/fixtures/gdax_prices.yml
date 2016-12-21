@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  start: 2016-12-21
+  low: 1.5
+  high: 1.5
+  open: 1.5
+  close: 1.5
+  volume: 1.5
+
+two:
+  start: 2016-12-21
+  low: 1.5
+  high: 1.5
+  open: 1.5
+  close: 1.5
+  volume: 1.5
