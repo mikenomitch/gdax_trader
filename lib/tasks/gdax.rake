@@ -46,6 +46,18 @@ namespace :gdax do
     end
   end
 
+  task :history do
+    api = ApiMaker.real_api
+
+    api.price_history(
+      start: (Time.now - 691.days).iso8601,
+      end: (Time.now - 690.days - 18.hours).iso8601,
+      granularity: 60
+    ) do |resp|
+      p resp
+    end
+  end
+
   task :price_check do
     api = ApiMaker.real_api
 

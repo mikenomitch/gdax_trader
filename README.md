@@ -11,4 +11,3 @@ might have to sudo chown -R $USER:$USER . on linux
 API key found at https://www.gdax.com/settings/api
 
 GDAX docs here https://docs.gdax.com/?ruby#pagination
-
