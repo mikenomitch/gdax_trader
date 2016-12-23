@@ -6,3 +6,4 @@ ADD Gemfile /trader/Gemfile
 ADD Gemfile.lock /trader/Gemfile.lock
 RUN bundle install
 ADD . /trader
+EXPOSE 3000
