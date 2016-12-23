@@ -17,4 +17,8 @@ services:
       COINBASE_API_PASS: baz
       COINBASE_API_URL: https://api.gdax.com
       COINBASE_API_SANDBOX_URL: https://api-public.sandbox.gdax.com
-
+      RDS_DB_NAME: foo-db
+      RDS_USERNAME: whoiis
+      RDS_PASSWORD: sekret
+      RDS_HOSTNAME: foo
+      RDS_PORT: 5432
