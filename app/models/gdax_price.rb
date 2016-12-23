@@ -5,7 +5,19 @@ class GdaxPrice < ApplicationRecord
   EARLIEST_TIME = 691.days.ago
   TIME_GAP = 4.hours
 
-  private
+  def self.my_logger
+    @my_logger ||= Logger.new("#{Rails.root}/log/gdax_calls.log")
+  end
+
+  def self.info_log(str)
+    puts str
+    my_logger.info(str)
+  end
+
+  def self.error_log(str)
+    puts str
+    my_logger.info(str)
+  end
 
   def self.latest
     GdaxPrice.maximum("start") || EARLIEST_TIME
@@ -29,21 +41,29 @@ class GdaxPrice < ApplicationRecord
 
     calls_end = Time.now - 10.days
 
-    i = 0
-    while(prices_start < calls_end) do
-      prices_start = GdaxPrice.latest
-      prices_end = prices_start + TIME_GAP
-      api.price_history(
-        start: prices_start.iso8601,
-        end: prices_end.iso8601,
-        granularity: 60
-      ) do |resp|
-        puts "CALL NUMBER #{i}"
-        i = i + 1
-        puts resp
-        resp.map { |r| GdaxPrice.parseAndCreate(r)}
+    begin
+      i = 0
+      while(prices_start < calls_end) do
+        prices_start = GdaxPrice.latest
+        prices_end = prices_start + TIME_GAP
+        api.price_history(
+          start: prices_start.iso8601,
+          end: prices_end.iso8601,
+          granularity: 60
+        ) do |resp|
+          info_log "CALL NUMBER #{i}"
+          i = i + 1
+          info_log resp
+          resp.map { |r| GdaxPrice.parseAndCreate(r)}
+        end
+        sleep 1.3
       end
-      sleep 1.3
+
+      info_log 'DONE'
+
+    rescue Exception => e
+      error_log 'there was an error'
+      error_log e
     end
   end
 end
