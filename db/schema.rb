@@ -17,13 +17,14 @@ ActiveRecord::Schema.define(version: 20161221050018) do
 
   create_table "gdax_prices", force: :cascade do |t|
     t.datetime "start"
+    t.bigint   "start_timestamp"
     t.float    "low"
     t.float    "high"
     t.float    "open"
     t.float    "close"
     t.float    "volume"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
 end

@@ -1,5 +1,5 @@
 class GdaxPrice < ApplicationRecord
-  attr_accessor :start, :low, :high, :open, :close, :volume
+  attr_accessor :start, :start_timestamp, :low, :high, :open, :close, :volume
   validates :start, uniqueness: true
 
   EARLIEST_TIME = 691.days.ago
@@ -17,6 +17,7 @@ class GdaxPrice < ApplicationRecord
       gdp[attr] = responseVal[attr.to_s].to_f
     end
     gdp[:start] = responseVal['start'].to_datetime
+    gdp[:start_timestamp] = responseVal['start'].to_time.to_i
     gdp.save
     gdp
   end
