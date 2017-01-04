@@ -77,23 +77,24 @@ namespace :currencies do
     end
   end
 
-  task :load_from_aws => [:environment] do
-    puts "Hai"
-  end
-
   task :load_from_csvs => [:environment] do
     require 'csv'
+
+    puts "deleting"
+    CurrencyPrice.delete_all
+    puts "donezo"
 
     @logger = Logger.new("#{Rails.root}/log/load_from_csvs.log")
 
     CURRENCIES_TO_GET.each do |currency|
-      currency_files = Dir.entries("./currency_histories").select do |f|
+      currency_file_urls = AwsCloud.get_file_urls.select do |f|
         f =~ /csv/ && f.include?(currency)
       end
 
       key_list = ['lt_id','c_dealable','currency_pair','time','bid','ask']
-      currency_files.each do |file_name|
-        csv_text = File.read("./currency_histories/#{file_name}")
+
+      currency_file_urls.each do |url|
+        csv_text = open(url) {|f| f.read }
         csv = CSV.parse(csv_text, :headers => true)
         @taken_times = Set.new
 
@@ -109,8 +110,10 @@ namespace :currencies do
 
 
             if !@taken_times.include?(modded_row['timestamp'])
+              puts "CREATING ONE"
               CurrencyPrice.create(modded_row)
               @taken_times.add(modded_row['timestamp'])
+              puts "CREATED!"
             else
               @logger.info("skipping row: #{modded_row} since it was a dupe time")
             end

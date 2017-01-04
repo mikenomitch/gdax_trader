@@ -10,6 +10,7 @@ Aws.config.update({
 
 class AwsCloud
   class << self
+
     def get_buckets
       s3 = Aws::S3::Client.new
       resp = s3.list_buckets
@@ -25,7 +26,9 @@ class AwsCloud
       csv_urls = resp.contents.map do |obj|
         base_s3_url + + "#{bucket}/" + obj.key.gsub(" ", "+")
       end
-      puts 'csv_urls', csv_urls
+
+      csv_urls
     end
+
   end
 end
