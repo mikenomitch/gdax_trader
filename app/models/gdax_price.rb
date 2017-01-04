@@ -34,15 +34,17 @@ class GdaxPrice < ApplicationRecord
   end
 
   def self.remove_duplicates_in_batches(batch_size)
-    GdaxPrice.find_in_batches(batch_size: batch_size) do |price_records|
-      price_records.each do |gdax_price|
-        matching_timestamp = price_records.select do |gdp|
-          gdp.attributes["start_timestamp"] == gdax_price.attributes["start_timestamp"]
+    GdaxPrice.select(:id, :start_timestamp).find_in_batches(batch_size: batch_size).with_index do |a_batch, i|
+      puts "batch number:", i
+      a_batch.each do |gdax_price|
+        matching_timestamp = a_batch.select do |gdp|
+          gdp.start_timestamp == gdax_price.start_timestamp
         end
 
         if matching_timestamp.count > 1
-          to_remove = matching_timestamp.max_by {|p| p.id}
-          to_remove.destroy
+          to_remove = matching_timestamp.max_by{|p| p.id}
+          puts "destroying", to_remove.attributes["id"]
+          to_remove.delete
         end
       end
     end
@@ -50,9 +52,11 @@ class GdaxPrice < ApplicationRecord
 
   def self.naive_remove_duplicates
     self.transaction do
+      p "starting the first"
       self.remove_duplicates_in_batches(5237)
+      p "starting the second"
       self.remove_duplicates_in_batches(4793)
-      self.remove_duplicates_in_batches(6121)
+      p "donezo"
     end
   end
 
