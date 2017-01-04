@@ -1,0 +1,14 @@
+currency_histories/
+currency_zips/
+tmp/
+
+docker/
+.dockerignore
+docker-compose.*
+
+.DS_Store
+.git
+.gitignore
+
+log/
+README.md
