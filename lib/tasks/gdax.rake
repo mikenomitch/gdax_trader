@@ -1,4 +1,4 @@
-desc 'tests out that the coinbase exchange gem works'
+desc 'does things with the coinbase/gdax api'
 require 'coinbase/exchange'
 
 namespace :gdax do
@@ -10,8 +10,12 @@ namespace :gdax do
     end
   end
 
+  task :clear_dupes => [:environment] do
+    GdaxPrice.naive_remove_duplicates
+  end
+
   task :get_history => [:environment] do
-    GdaxPrice.makePriceHistoryCall
+    GdaxPrice.make_price_history_call
   end
 
   task :history => [:environment] do

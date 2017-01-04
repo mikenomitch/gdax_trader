@@ -10,10 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161221050018) do
+ActiveRecord::Schema.define(version: 20170103140622) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "currency_prices", force: :cascade do |t|
+    t.bigint   "lt_id"
+    t.bigint   "timestamp"
+    t.string   "c_dealable"
+    t.string   "currency_pair"
+    t.datetime "time"
+    t.float    "bid"
+    t.float    "ask"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["timestamp"], name: "index_currency_prices_on_timestamp", unique: true, using: :btree
+  end
 
   create_table "gdax_prices", force: :cascade do |t|
     t.datetime "start"

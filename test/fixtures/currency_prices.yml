@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  lt_id: 
+  c_dealable: MyString
+  currency_pair: MyString
+  rate_time: 2017-01-03 14:06:22
+  bid: 1.5
+  ask: 1.5
+
+two:
+  lt_id: 
+  c_dealable: MyString
+  currency_pair: MyString
+  rate_time: 2017-01-03 14:06:22
+  bid: 1.5
+  ask: 1.5

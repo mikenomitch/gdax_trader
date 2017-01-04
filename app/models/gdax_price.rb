@@ -1,5 +1,4 @@
 class GdaxPrice < ApplicationRecord
-  attr_accessor :start, :start_timestamp, :low, :high, :open, :close, :volume
   validates :start, uniqueness: true
 
   EARLIEST_TIME = 691.days.ago
@@ -20,10 +19,10 @@ class GdaxPrice < ApplicationRecord
   end
 
   def self.latest
-    GdaxPrice.maximum("start") || EARLIEST_TIME
+    EARLIEST_TIME || GdaxPrice.maximum("start") || EARLIEST_TIME
   end
 
-  def self.parseAndCreate(responseVal)
+  def self.parse_and_create(responseVal)
     gdp = GdaxPrice.new()
     [:low, :high, :open, :close, :volume].each do |attr|
       gdp[attr] = responseVal[attr.to_s].to_f
@@ -34,7 +33,30 @@ class GdaxPrice < ApplicationRecord
     gdp
   end
 
-  def self.makePriceHistoryCall
+  def self.remove_duplicates_in_batches(batch_size)
+    GdaxPrice.find_in_batches(batch_size: batch_size) do |price_records|
+      price_records.each do |gdax_price|
+        matching_timestamp = price_records.select do |gdp|
+          gdp.attributes["start_timestamp"] == gdax_price.attributes["start_timestamp"]
+        end
+
+        if matching_timestamp.count > 1
+          to_remove = matching_timestamp.max_by {|p| p.id}
+          to_remove.destroy
+        end
+      end
+    end
+  end
+
+  def self.naive_remove_duplicates
+    self.transaction do
+      self.remove_duplicates_in_batches(5237)
+      self.remove_duplicates_in_batches(4793)
+      self.remove_duplicates_in_batches(6121)
+    end
+  end
+
+  def self.make_price_history_call
     api = CoinbaseApi.real_api
     prices_start = GdaxPrice.latest
     prices_end = prices_start + TIME_GAP
@@ -54,7 +76,7 @@ class GdaxPrice < ApplicationRecord
           info_log "CALL NUMBER #{i}"
           i = i + 1
           info_log resp
-          resp.map { |r| GdaxPrice.parseAndCreate(r)}
+          resp.map { |r| GdaxPrice.parse_and_create(r)}
         end
         sleep 1.3
       end
