@@ -1,6 +1,4 @@
 class GdaxPrice < ApplicationRecord
-  validates :start, uniqueness: true
-
   EARLIEST_TIME = 691.days.ago
   TIME_GAP = 4.hours
 
