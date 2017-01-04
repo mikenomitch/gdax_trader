@@ -32,6 +32,8 @@ gem 'jbuilder', '~> 2.5'
 
 # ABOVE ^^ rails 5 defaults
 
+gem 'aws-sdk', '~> 2'
+
 gem 'coinbase'
 gem 'coinbase-exchange'
 

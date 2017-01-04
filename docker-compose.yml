@@ -12,6 +12,9 @@ services:
     depends_on:
       - db
     environment:
+      AWS_API_KEY: foo
+      AWS_API_SECRET: foo
+      AWS_S3_CSV_URL: www.foogle.bar
       COINBASE_API_KEY: foo
       COINBASE_API_SECRET: bar
       COINBASE_API_PASS: baz

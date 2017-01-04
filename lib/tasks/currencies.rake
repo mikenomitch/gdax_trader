@@ -77,6 +77,10 @@ namespace :currencies do
     end
   end
 
+  task :load_from_aws => [:environment] do
+    puts "Hai"
+  end
+
   task :load_from_csvs => [:environment] do
     require 'csv'
 
