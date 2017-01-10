@@ -49,13 +49,11 @@ class GdaxPrice < ApplicationRecord
   end
 
   def self.naive_remove_duplicates
-    self.transaction do
-      p "starting the first"
-      self.remove_duplicates_in_batches(5237)
-      p "starting the second"
-      self.remove_duplicates_in_batches(4793)
-      p "donezo"
-    end
+    p "starting the first removal run"
+    self.remove_duplicates_in_batches(5237)
+    p "starting the second"
+    self.remove_duplicates_in_batches(4793)
+    p "donezo"
   end
 
   def self.make_price_history_call
