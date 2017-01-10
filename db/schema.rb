@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170103140622) do
+ActiveRecord::Schema.define(version: 20170110040929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,8 +36,20 @@ ActiveRecord::Schema.define(version: 20170103140622) do
     t.float    "open"
     t.float    "close"
     t.float    "volume"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.float    "price_ago_five"
+    t.float    "price_ago_ten"
+    t.float    "price_later_five"
+    t.float    "price_later_ten"
+    t.float    "price_speed_a"
+    t.float    "price_speed_b"
+    t.float    "price_accel_a"
+    t.float    "price_accel_b"
+    t.float    "price_jerk_a"
+    t.float    "price_jerk_b"
+    t.index ["start"], name: "index_gdax_prices_on_start", unique: true, using: :btree
+    t.index ["start_timestamp"], name: "index_gdax_prices_on_start_timestamp", unique: true, using: :btree
   end
 
 end
