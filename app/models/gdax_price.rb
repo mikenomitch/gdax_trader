@@ -34,6 +34,8 @@ class GdaxPrice < ApplicationRecord
   def self.remove_duplicates_in_batches(batch_size)
     GdaxPrice.select(:id, :start_timestamp).find_in_batches(batch_size: batch_size).with_index do |a_batch, i|
       puts "batch number:", i
+      next if i < 60
+
       a_batch.each do |gdax_price|
         matching_timestamp = a_batch.select do |gdp|
           gdp.start_timestamp == gdax_price.start_timestamp
@@ -50,9 +52,9 @@ class GdaxPrice < ApplicationRecord
 
   def self.naive_remove_duplicates
     p "starting the first removal run"
-    self.remove_duplicates_in_batches(5237)
-    p "starting the second"
     self.remove_duplicates_in_batches(4793)
+    p "starting the second"
+    self.remove_duplicates_in_batches(5237)
     p "donezo"
   end
 
