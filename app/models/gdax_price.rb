@@ -34,7 +34,7 @@ class GdaxPrice < ApplicationRecord
   def self.remove_duplicates_in_batches(batch_size)
     GdaxPrice.select(:id, :start_timestamp).find_in_batches(batch_size: batch_size).with_index do |a_batch, i|
       puts "batch number:", i
-      if i > 60
+      if i > 110
         a_batch.each do |gdax_price|
           matching_timestamp = a_batch.select do |gdp|
             gdp.start_timestamp == gdax_price.start_timestamp
