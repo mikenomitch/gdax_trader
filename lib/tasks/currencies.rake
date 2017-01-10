@@ -80,9 +80,7 @@ namespace :currencies do
   task :load_from_csvs => [:environment] do
     require 'csv'
 
-    puts "deleting"
     CurrencyPrice.delete_all
-    puts "donezo"
 
     @logger = Logger.new("#{Rails.root}/log/load_from_csvs.log")
 
@@ -108,12 +106,9 @@ namespace :currencies do
             modded_row['time'] = modded_row['time'].to_datetime
             modded_row['timestamp'] = modded_row['time'].to_time.to_i
 
-
             if !@taken_times.include?(modded_row['timestamp'])
-              puts "CREATING ONE"
               CurrencyPrice.create(modded_row)
               @taken_times.add(modded_row['timestamp'])
-              puts "CREATED!"
             else
               @logger.info("skipping row: #{modded_row} since it was a dupe time")
             end
